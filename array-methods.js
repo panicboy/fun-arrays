@@ -6,12 +6,16 @@ var myDataset = dataset.bankBalances;
   greater than 100000.00
   assign the resulting array to `hundredThousandairs`
 */
+console.log('myDataset[0] before hundredThousandairs: ', myDataset[0]);
 function hundredGrand(element, index, array) {
     return element.amount > 100000;
 }
 
 
 var hundredThousandairs = myDataset.filter(hundredGrand);
+
+console.log('myDataset[0] after hundredThousandairs: ', myDataset[0]);
+console.log('hundredThousandairs[0]: ', hundredThousandairs[0]);
 
 /*
   set a new key for each object in bankBalances named `rounded`
@@ -24,12 +28,15 @@ var hundredThousandairs = myDataset.filter(hundredGrand);
     }
   assign the resulting array to `roundedDollar`
 */
-function roundedDollar(element, index, array) {
-    var roundedAmt = Math.round(element.amount);
-    element.rounded = roundedAmt;
-    return element;
+console.log('myDataset[0] before roundedDollar: ', myDataset[0]);
+function roundToDollar(element, index, array) {
+    let myAmount = element.amount;
+    let myState = element.state;
+    let myRounded = Math.round(element.amount);
+    return {amount: myAmount, state: myState, rounded: myRounded};
 }
-var roundedDollar = myDataset.map(roundedDollar);
+var roundedDollar = myDataset.map(roundToDollar);
+console.log('roundedDollar[0]: ', roundedDollar[0], ' myDataset[0]: ', myDataset[0]);
 
 /*
   set a the `amount` value for each object in bankBalances
@@ -41,7 +48,15 @@ var roundedDollar = myDataset.map(roundedDollar);
     }
   assign the resulting array to `roundedDime`
 */
-var roundedDime = null;
+
+function roundToDime(element, index, array) {
+    let myState = element.state;
+    let myRoundedAmount = Math.round(element.amount * 10)/10;
+    return {amount: myRoundedAmount, state: myState};
+}
+
+var roundedDime = myDataset.map(roundToDime);
+// console.log(roundedDime[0]);
 
 // set sumOfBankBalances to the sum of all amounts in bankBalances
 var sumOfBankBalances = null;
