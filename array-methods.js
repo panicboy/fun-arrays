@@ -61,11 +61,8 @@ var roundedDime = myDataset.map(roundToDime);
 
 function sumItUp(previousValue, currentValue, index, array) {
   myPreviousAmt = Number(previousValue.amount);
-  console.log(' myPreviousAmt: ', myPreviousAmt);
   myCurrentAmt = Number(currentValue.amount);
-  console.log(' myCurrentAmt: ', myCurrentAmt);
   myCurrentAmt += myPreviousAmt;
-  console.log('newCurrentAmt: ', myCurrentAmt);
   myCurrentState = currentValue.state;
   return {amount: myCurrentAmt, state: myCurrentState};
 }
@@ -87,12 +84,22 @@ var sumOfBankBalances = Math.round(summedData.amount * 100)/100;
   the result should be rounded to the nearest cent
  */
  function specialStates(element, index, array) {
-  var stateFilter = 'Wisconsin Illinois Wyoming Ohio Georgia Delaware';
+  var stateFilter = 'WI IL WY OH GA DE';
     return stateFilter.includes(element.state);
 }
-
 var specialBankAccounts = myDataset.filter(specialStates);
-var sumOfInterests = null;
+console.log('specialBankAccounts[0]: ', specialBankAccounts[0]);
+
+var startSum = 0;
+function addStuff(element, index, array){
+  console.log('current amount: ', element.amount);
+  startSum += Number(element.amount);
+}
+specialBankAccounts.forEach(addStuff);
+var interest = Math.round(startSum * 18.9)/100;
+
+var sumOfInterests = interest;
+
 
 /*
   set sumOfHighInterests to the sum of the 18.9% interest
