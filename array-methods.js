@@ -6,7 +6,7 @@ var myDataset = dataset.bankBalances;
   greater than 100000.00
   assign the resulting array to `hundredThousandairs`
 */
-console.log('myDataset[0] before hundredThousandairs: ', myDataset[0]);
+// console.log('myDataset[0] before hundredThousandairs: ', myDataset[0]);
 function hundredGrand(element, index, array) {
     return element.amount > 100000;
 }
@@ -14,8 +14,8 @@ function hundredGrand(element, index, array) {
 
 var hundredThousandairs = myDataset.filter(hundredGrand);
 
-console.log('myDataset[0] after hundredThousandairs: ', myDataset[0]);
-console.log('hundredThousandairs[0]: ', hundredThousandairs[0]);
+// console.log('myDataset[0] after hundredThousandairs: ', myDataset[0]);
+// console.log('hundredThousandairs[0]: ', hundredThousandairs[0]);
 
 /*
   set a new key for each object in bankBalances named `rounded`
@@ -28,7 +28,7 @@ console.log('hundredThousandairs[0]: ', hundredThousandairs[0]);
     }
   assign the resulting array to `roundedDollar`
 */
-console.log('myDataset[0] before roundedDollar: ', myDataset[0]);
+// console.log('myDataset[0] before roundedDollar: ', myDataset[0]);
 function roundToDollar(element, index, array) {
     let myAmount = element.amount;
     let myState = element.state;
@@ -36,7 +36,7 @@ function roundToDollar(element, index, array) {
     return {amount: myAmount, state: myState, rounded: myRounded};
 }
 var roundedDollar = myDataset.map(roundToDollar);
-console.log('roundedDollar[0]: ', roundedDollar[0], ' myDataset[0]: ', myDataset[0]);
+// console.log('roundedDollar[0]: ', roundedDollar[0], ' myDataset[0]: ', myDataset[0]);
 
 /*
   set a the `amount` value for each object in bankBalances
@@ -56,10 +56,23 @@ function roundToDime(element, index, array) {
 }
 
 var roundedDime = myDataset.map(roundToDime);
-// console.log(roundedDime[0]);
 
 // set sumOfBankBalances to the sum of all amounts in bankBalances
-var sumOfBankBalances = null;
+
+function sumItUp(previousValue, currentValue, index, array) {
+  myPreviousAmt = Number(previousValue.amount);
+  console.log(' myPreviousAmt: ', myPreviousAmt);
+  myCurrentAmt = Number(currentValue.amount);
+  console.log(' myCurrentAmt: ', myCurrentAmt);
+  myCurrentAmt += myPreviousAmt;
+  console.log('newCurrentAmt: ', myCurrentAmt);
+  myCurrentState = currentValue.state;
+  return {amount: myCurrentAmt, state: myCurrentState};
+}
+
+var myDatasetCopy = myDataset;
+var summedData = myDatasetCopy.reduce(sumItUp);
+var sumOfBankBalances = Math.round(summedData.amount * 100)/100;
 
 /*
   set sumOfInterests to the sum of the 18.9% interest
@@ -73,6 +86,12 @@ var sumOfBankBalances = null;
     Delaware
   the result should be rounded to the nearest cent
  */
+ function specialStates(element, index, array) {
+  var stateFilter = 'Wisconsin Illinois Wyoming Ohio Georgia Delaware';
+    return stateFilter.includes(element.state);
+}
+
+var specialBankAccounts = myDataset.filter(specialStates);
 var sumOfInterests = null;
 
 /*
